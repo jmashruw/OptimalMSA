@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 class InnerObject{
-	int startPos_Pi;
-	int startPos_Pj;
+	private int startPos_Pi;
+	private int startPos_Pj;
 	
 	public InnerObject(int startPos_Pi, int startPos_Pj) {
 		this.startPos_Pi = startPos_Pi;
@@ -25,8 +25,8 @@ class InnerObject{
 }
 
 class OuterObject{
-	int frequency;
-	ArrayList<InnerObject> position;
+	private int frequency;
+	private ArrayList<InnerObject> position;
 	
 	public int getFrequency() {
 		return frequency;
@@ -46,5 +46,51 @@ class OuterObject{
 
 
 public class SlidingWindow {
-
+	
+	ArrayList<OuterObject> Nij;
+	public SlidingWindow(){
+		Nij = new ArrayList<>();
+	}
+	
+	
+	public void doSlidingWindow(TreeNode root_Pi, String Pj, int r) {
+		int step_size = 0;
+		int current_pos = 0;
+		int start_pos = 0;
+		int end = start_pos+ r; //start+r = end shouldn't be greater than r
+		OuterObject outer_object = new OuterObject();
+		
+		while(current_pos < Pj.length()) {
+			start_pos = current_pos;
+			end = (start_pos+ r < Pj.length()) ? start_pos+r : Pj.length();
+			
+			while(root_Pi.getChildren().containsKey(Pj.charAt(current_pos)) && current_pos < end  ) {
+				root_Pi = root_Pi.getChildren().get(Pj.charAt(current_pos));
+				current_pos++;
+			}
+			
+			
+			if(current_pos == end) {
+				//Case 1: Loop breaks when all the chars have matched
+				//Update the entire data structure
+				
+				InnerObject inner_object = new InnerObject(root_Pi.getList().remove(0), start_pos);
+				if(!root_Pi.isConsumed()) {
+					outer_object.setFrequency(outer_object.getFrequency() + 1);
+				}
+				else {
+					
+				}
+								
+			}
+			
+			else {
+				//Case 2: Partial matching -> Slide window
+			}
+			
+			
+		}
+	}
+	
+	
 }
